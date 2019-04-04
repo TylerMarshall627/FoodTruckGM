@@ -36,6 +36,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
      */
     @Override
     public void onMapReady(GoogleMap googleMap) {
+        System.out.println("onMapReady");
         mMap = googleMap;
 
         // Add a marker in Sydney and move the camera
