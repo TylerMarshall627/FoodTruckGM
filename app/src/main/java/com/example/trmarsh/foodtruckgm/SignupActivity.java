@@ -1,5 +1,6 @@
 package com.example.trmarsh.foodtruckgm;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -14,6 +15,7 @@ public class SignupActivity extends AppCompatActivity {
     private EditText mFirstN;
     private EditText mLastN;
     private EditText mPassWord;
+    private CheckBox mIsOwner = null;
 
     public Firebase mRef;
     public Firebase mRefInstance;
@@ -33,6 +35,7 @@ public class SignupActivity extends AppCompatActivity {
         mFirstN = (EditText) findViewById(R.id.editText2);
         mLastN = (EditText) findViewById(R.id.editText3);
         mPassWord = (EditText) findViewById(R.id.editText4);
+        mIsOwner = (CheckBox) findViewById(R.id.ownerCheckBox);
 
     }
     public void onAdd (View v){
@@ -57,7 +60,13 @@ public class SignupActivity extends AppCompatActivity {
         mLastN.setText("");
         mPassWord.setText("");
 
-
+        if(mIsOwner.isChecked()){
+            Intent intentL = new Intent(getApplicationContext(), TruckSignupActivity.class);
+            startActivity(intentL);
+        }else{
+            Intent intentL = new Intent(getApplicationContext(), LoginActivity.class);
+            startActivity(intentL);
+        }
     }
 
 }
