@@ -9,13 +9,15 @@ import android.widget.EditText;
 
 import com.firebase.client.Firebase;
 
-public class SignupActivity extends AppCompatActivity {
+public class UserSignupActivity extends AppCompatActivity {
 
     private EditText mEmail;
     private EditText mFirstN;
     private EditText mLastN;
     private EditText mPassWord;
-    private CheckBox mIsOwner = null;
+    private CheckBox mIsOwner;
+
+    public final static String Extra_String_UserEmail = "";
 
     public Firebase mRef;
     public Firebase mRefInstance;
@@ -29,7 +31,7 @@ public class SignupActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mRef = new Firebase("https://foodtruck-38f8f.firebaseio.com/User");
-        setContentView(R.layout.activity_signup);
+        setContentView(R.layout.activity_user_signup);
 
         mEmail = (EditText) findViewById(R.id.editText);
         mFirstN = (EditText) findViewById(R.id.editText2);
@@ -38,7 +40,8 @@ public class SignupActivity extends AppCompatActivity {
         mIsOwner = (CheckBox) findViewById(R.id.ownerCheckBox);
 
     }
-    public void onAdd (View v){
+
+    public void onAdd(View v) {
         String email = mEmail.getText().toString();
         String firstN = mFirstN.getText().toString();
         String lastN = mLastN.getText().toString();
@@ -48,6 +51,7 @@ public class SignupActivity extends AppCompatActivity {
 
         mRefInstanceEmail = mRefInstance.child("Email");
         mRefInstanceEmail.setValue(mEmail);
+
         mRefInstanceFirstN = mRefInstance.child("FirstName");
         mRefInstanceFirstN.setValue(firstN);
         mRefInstanceLastN = mRefInstance.child("LastName");
@@ -60,10 +64,13 @@ public class SignupActivity extends AppCompatActivity {
         mLastN.setText("");
         mPassWord.setText("");
 
-        if(mIsOwner.isChecked()){
+        if (mIsOwner.isChecked()) {
+            mRefInstance.child("TruckOwner").setValue("1");
             Intent intentL = new Intent(getApplicationContext(), TruckSignupActivity.class);
+            intentL.putExtra(Extra_String_UserEmail, mEmail.toString());
             startActivity(intentL);
-        }else{
+        } else {
+            mRefInstance.child("TruckOwner").setValue("1");
             Intent intentL = new Intent(getApplicationContext(), LoginActivity.class);
             startActivity(intentL);
         }
