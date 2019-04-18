@@ -83,15 +83,20 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                     ArrayList<String> item = new ArrayList<>();
 
                     String truckName = snap.child("Name").getValue().toString();
-                    String lat = snap.child("Lat").getValue().toString();
-                    String lng = snap.child("Lng").getValue().toString();
+                    Object lat = snap.child("Lat").getValue();
+                    Object lng = snap.child("Lng").getValue();
+
+                    if (lat == null || lng == null || lat.toString().equals("0") || lng.toString().equals("0")) {
+                        continue;
+                    }
 
                     item.add(truckName);
-                    item.add(lat);
-                    item.add(lng);
+                    item.add(lat.toString());
+                    item.add(lng.toString());
 
                     truckLocations.put(truckName, item);
                 }
+
                 UpdatePins();
             }
 

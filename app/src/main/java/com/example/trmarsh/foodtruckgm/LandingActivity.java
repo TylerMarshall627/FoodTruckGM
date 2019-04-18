@@ -6,7 +6,6 @@ import android.os.Bundle;
 import android.view.View;
 
 public class LandingActivity extends AppCompatActivity {
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -21,7 +20,7 @@ public class LandingActivity extends AppCompatActivity {
         startActivity(intent);
     }
     public void onTruck(View v){
-        Intent intent = new Intent(getApplicationContext(), UserSignupActivity.class);
+        Intent intent = new Intent(getApplicationContext(), MapsActivity.class);
         startActivity(intent);
     }
 }
