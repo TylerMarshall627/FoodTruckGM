@@ -16,7 +16,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:ems="10"
-            android:hint="Email"
+            android:hint="Company"
             android:inputType="textPersonName" />
 
         <EditText
@@ -24,7 +24,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:ems="10"
-            android:hint="First Name"
+            android:hint="Description"
             android:inputType="textPersonName" />
 
         <EditText
@@ -32,7 +32,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:ems="10"
-            android:hint="Last Name"
+            android:hint="Facebook"
             android:inputType="textPersonName" />
 
         <EditText
@@ -40,15 +40,17 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:ems="10"
-            android:hint="Password"
-            android:inputType="textPersonName"
-            android:password="true" />
+            android:hint="Instagram"
+            android:inputType="textPersonName" />
 
-        <CheckBox
-            android:id="@+id/ownerCheckBox"
+        <EditText
+            android:id="@+id/editText5"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="I Am a Foodtruck Owner" />
+            android:ems="10"
+            android:hint="Twitter"
+            android:inputType="textPersonName" />
+
 
         <Button
             android:id="@+id/button"
@@ -57,7 +59,7 @@
             android:layout_marginStart="8dp"
             android:layout_marginEnd="8dp"
             android:onClick="onAdd"
-            android:text="Sign Up"
+            android:text="Create Truck"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent" />
     </LinearLayout>

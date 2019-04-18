@@ -17,12 +17,13 @@ import java.util.Map;
 
 public class LoginActivity extends AppCompatActivity {
 
-    private EditText mEmail;
+    private EditText mUserName;
     private EditText mPassWord;
 
-    public final static String Extra_String_Email = "com.example.trmarsh.todo.Extra";
-    public final static String Extra_String_First = "";
-    public final static String Extra_String_Last = "";
+    public final static String Extra_String_Email = "com.example.trmarsh.foodtruckgm.loginEmail";
+    public final static String Extra_String_UserN = "com.example.trmarsh.foodtruckgm.loginUser";
+    public final static String Extra_String_First = "com.example.trmarsh.foodtruckgm.loginFirst";
+    public final static String Extra_String_Last = "com.example.trmarsh.foodtruckgm.loginLast";
 
 
     private Firebase mRef;
@@ -32,10 +33,11 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-        mEmail = (EditText) findViewById(R.id.editText);
+        mUserName = (EditText) findViewById(R.id.editText);
         mPassWord = (EditText) findViewById(R.id.editText2);
     }
     public void onLogin (View v){
+        mRef.setAndroidContext(this);
         mRef = new Firebase("https://foodtruck-38f8f.firebaseio.com/User");
 
         mRef.addValueEventListener(new ValueEventListener() {
@@ -47,12 +49,13 @@ public class LoginActivity extends AppCompatActivity {
                 Log.i("data-map", map.toString());
 
                 // if we don't have any value in the username, don't do operation
-                if(!mEmail.getText().toString().equals("")){
+                if(!mUserName.getText().toString().equals("")){
                     // use the entered username to check the password
-                    Map<String, String> matchMap = map.get(mEmail.getText().toString());
-                    String matchPassword = matchMap.get("PassWord");
-                    // Store the First name and Last name in a string
+                    Map<String, String> matchMap = map.get(mUserName.getText().toString());
+                    String matchPassword = matchMap.get("Password");
+                    // Store the info in strings
                     String matchEmail = matchMap.get("Email");
+                    String matchUser = matchMap.get("UserName");
                     String matchFirstName = matchMap.get("FirstName");
                     String matchLastName = matchMap.get("LastName");
                     // if the password matches, send a success message. Otherwise send fail message
@@ -61,6 +64,7 @@ public class LoginActivity extends AppCompatActivity {
                         // Send the User to a welcome page with the indicated first and last name
                         Intent intent = new Intent(getApplicationContext(), ProfileActivity.class);
                         intent.putExtra(Extra_String_Email, matchEmail);
+                        intent.putExtra(Extra_String_UserN, matchUser);
                         intent.putExtra(Extra_String_First, matchFirstName);
                         intent.putExtra(Extra_String_Last, matchLastName);
                         startActivity(intent);

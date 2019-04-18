@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".LandingActivity">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <Button
+            android:id="@+id/MapButton"
+            android:layout_width="match_parent"
+            android:layout_height="117dp"
+            android:onClick="onTruck"
+            android:text="Truck Map"
+            tools:layout_editor_absoluteX="128dp"
+            tools:layout_editor_absoluteY="139dp" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/LoginButton"
+                android:layout_width="157dp"
+                android:layout_height="54dp"
+                android:onClick="onLogin"
+                android:text="Login"
+                tools:layout_editor_absoluteX="211dp"
+                tools:layout_editor_absoluteY="401dp" />
+
+            <Button
+                android:id="@+id/SignUpButton"
+                android:layout_width="157dp"
+                android:layout_height="54dp"
+                android:onClick="onSignup"
+                android:text="Sign Up"
+                tools:layout_editor_absoluteX="16dp"
+                tools:layout_editor_absoluteY="401dp" />
+        </LinearLayout>
+    </LinearLayout>
+
+</android.support.constraint.ConstraintLayout>
