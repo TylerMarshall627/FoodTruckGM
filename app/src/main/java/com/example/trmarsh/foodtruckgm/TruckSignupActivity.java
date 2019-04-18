@@ -54,6 +54,10 @@ public class TruckSignupActivity extends AppCompatActivity {
         tRefInstance.child("Facebook").setValue(truckFace);
         tRefInstance.child("Instagram").setValue(truckInsta);
         tRefInstance.child("Twitter").setValue(truckTwit);
+        tRefInstance.child("Lat").setValue("0");
+        tRefInstance.child("Lng").setValue("0");
+        tRefInstance.child("Owner").setValue(userName);
+
 
         // place the truck information in the user (owner's) information
         tRefInstance = tRef.child("User").child(userName).child("Truck").child(truckName);
@@ -62,6 +66,9 @@ public class TruckSignupActivity extends AppCompatActivity {
         tRefInstance.child("Facebook").setValue(truckFace);
         tRefInstance.child("Instagram").setValue(truckInsta);
         tRefInstance.child("Twitter").setValue(truckTwit);
+        tRefInstance.child("Lat").setValue("0");
+        tRefInstance.child("Lng").setValue("0");
+
 
 
         //empty the EditTexts on click
