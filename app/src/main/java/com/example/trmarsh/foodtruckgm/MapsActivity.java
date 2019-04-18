@@ -1,5 +1,6 @@
 package com.example.trmarsh.foodtruckgm;
 
+import android.content.Intent;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -13,14 +14,16 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
-public abstract class MapsActivity extends FragmentActivity implements OnMapReadyCallback, GoogleMap.OnMarkerClickListener {
+public class MapsActivity extends FragmentActivity implements OnMapReadyCallback, GoogleMap.OnMarkerClickListener {
 
     private GoogleMap mMap;
     private Firebase mRef;
@@ -54,11 +57,18 @@ public abstract class MapsActivity extends FragmentActivity implements OnMapRead
 
         // Add a marker in Sydney and move the camera
         LatLng startLoc = new LatLng(36.1313586, -97.073077);
-        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(startLoc, 12));
+        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(startLoc, 16));
 
         ReadData();
 
         mMap.setOnMarkerClickListener(this);
+
+        mMap.setOnInfoWindowClickListener(new GoogleMap.OnInfoWindowClickListener() {
+            @Override
+            public void onInfoWindowClick(Marker marker) {
+                switchToTruckPage(marker);
+            }
+        });
     }
 
     private void ReadData() {
@@ -100,5 +110,32 @@ public abstract class MapsActivity extends FragmentActivity implements OnMapRead
             LatLng newPin = new LatLng(lat, lng);
             mMap.addMarker(new MarkerOptions().position(newPin).title(truckName));
         }
+    }
+
+    private String lastMarker = "";
+
+    @Override
+    public boolean onMarkerClick(Marker marker) {
+        String truckName = marker.getTitle();
+        if (!lastMarker.equals(truckName)) {
+            marker.showInfoWindow();
+            lastMarker = truckName;
+        } else {
+            lastMarker = "";
+            switchToTruckPage(marker);
+        }
+        return true;
+    }
+
+    private void switchToTruckPage(Marker marker) {
+        String truckName = marker.getTitle();
+        Intent intent = new Intent(getApplicationContext(), TruckPage.class);
+        intent.putExtra(TruckPage.Extra_String_TruckName, truckName);
+        startActivity(intent);
+    }
+
+    @Override
+    public void onPointerCaptureChanged(boolean hasCapture) {
+
     }
 }
