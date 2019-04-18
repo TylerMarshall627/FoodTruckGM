@@ -46,7 +46,6 @@ public class TruckSignupActivity extends AppCompatActivity {
 
         String userName = getIntent().getStringExtra(UserSignupActivity.Extra_String_UserName);
 
-
         //create a child to the table object; this will be the instance child
         tRefInstance = tRef.child("Truck").child(truckName);
         tRefInstance.child("Name").setValue(truckName);
