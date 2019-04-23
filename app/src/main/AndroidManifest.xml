@@ -41,8 +41,10 @@
         <activity android:name=".TruckSignupActivity" />
         <activity
             android:name=".MapsActivity"
-            android:label="@string/title_activity_maps"></activity>
+            android:label="@string/title_activity_maps" />
         <activity android:name=".TruckPage" />
+        <activity android:name=".ReviewActivity" />
+        <activity android:name=".ReviewCreateActivity"></activity>
     </application>
 
 </manifest>
