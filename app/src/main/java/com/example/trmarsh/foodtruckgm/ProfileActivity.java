@@ -1,9 +1,13 @@
 package com.example.trmarsh.foodtruckgm;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 import android.widget.TextView;
+
+import static com.example.trmarsh.foodtruckgm.LoginActivity.Extra_String_UserN;
 
 public class ProfileActivity extends AppCompatActivity {
 
@@ -12,7 +16,7 @@ public class ProfileActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile);
 
-        String recUserN = getIntent().getStringExtra(LoginActivity.Extra_String_UserN);
+        String recUserN = getIntent().getStringExtra(Extra_String_UserN);
         String recEmail = getIntent().getStringExtra(LoginActivity.Extra_String_Email);
         String recFirstN = getIntent().getStringExtra(LoginActivity.Extra_String_First);
         String recLastN = getIntent().getStringExtra(LoginActivity.Extra_String_Last);
@@ -28,6 +32,12 @@ public class ProfileActivity extends AppCompatActivity {
 
     }
 
+    public void onReview(View v){
+        Intent intent = new Intent(getApplicationContext(), ReviewCreateActivity.class);
+        String recUserN = getIntent().getStringExtra(Extra_String_UserN);
+        intent.putExtra(Extra_String_UserN, recUserN);
+        startActivity(intent);
+    }
 
 
 }

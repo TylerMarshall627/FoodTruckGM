@@ -72,6 +72,13 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.5"
                 app:layout_constraintStart_toStartOf="parent" />
+
+            <Button
+                android:id="@+id/button2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:onClick="onReview"
+                android:text="Review a Truck" />
         </LinearLayout>
 
     </android.support.constraint.ConstraintLayout>
