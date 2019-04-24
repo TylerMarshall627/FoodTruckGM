@@ -16,7 +16,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".ReviewCreateActivity">
+        <activity android:name=".LandingActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -44,7 +44,7 @@
             android:label="@string/title_activity_maps" />
         <activity android:name=".TruckPage" />
         <activity android:name=".ReviewActivity" />
-        <!--<activity android:name=".ReviewCreateActivity"></activity>-->
+        <activity android:name=".ReviewCreateActivity"></activity>
     </application>
 
 </manifest>
