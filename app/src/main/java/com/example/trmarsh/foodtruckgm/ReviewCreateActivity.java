@@ -41,8 +41,6 @@ public class ReviewCreateActivity extends AppCompatActivity implements AdapterVi
         rText = (EditText) findViewById(R.id.editText);
         ratingBar = findViewById(R.id.ratingBar);
 
-
-
         updateTruckSelector();
     }
 
