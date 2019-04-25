@@ -23,6 +23,7 @@ public class ReviewActivity extends AppCompatActivity {
 
     private Button btnReviews, btnMap, btnProfile;
     private ListView reviewsList;
+    private Button btnMakeReview;
 
     private List<String> reviews;
     private String loggedInUser = null;
@@ -34,9 +35,17 @@ public class ReviewActivity extends AppCompatActivity {
         this.thisPage = this;
         Firebase.setAndroidContext(this);
 
+        loggedInUser = getIntent().getStringExtra(Extra_String_UserN);
+
+        // set create a review button visible only if logged in
+        btnMakeReview = findViewById(R.id.btn_makereview);
+        if (loggedInUser != null ){
+            btnMakeReview.setVisibility(View.VISIBLE);
+        } else {
+            btnMakeReview.setVisibility(View.GONE);
+        }
         reviewsList = findViewById(R.id.lst_reviews);
 
-        loggedInUser = getIntent().getStringExtra(Extra_String_UserN);
         startMenuButtonListeners(1);
         updateReviews();
     }
@@ -124,6 +133,12 @@ public class ReviewActivity extends AppCompatActivity {
         });
     }
 
+    public void onReview(View v){
+
+        Intent intent = new Intent(getApplicationContext(), ReviewCreateActivity.class);
+        intent.putExtra(Extra_String_UserN, loggedInUser);
+        startActivity(intent);
+    }
 
     
 }

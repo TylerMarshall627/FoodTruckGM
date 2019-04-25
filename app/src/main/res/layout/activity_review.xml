@@ -48,11 +48,19 @@
             android:textAlignment="center"
             android:textSize="18sp" />
 
+        <Button
+            android:id="@+id/btn_makereview"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:onClick="onReview"
+            android:text="Review a Truck" />
+
         <ListView
             android:id="@+id/lst_reviews"
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
 
     </LinearLayout>
+
 
 </LinearLayout>

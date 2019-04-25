@@ -69,19 +69,11 @@ public class TruckSignupActivity extends AppCompatActivity {
         tRefInstance.child("Lat").setValue("0");
         tRefInstance.child("Lng").setValue("0");
 
-
-
-        //empty the EditTexts on click
-        tName.setText("");
-        tDesc.setText("");
-        tFacebook.setText("");
-        tInstagram.setText("");
-        tTwitter.setText("");
-
         //send to next activity
         // set latlong
         Intent intent = new Intent(getApplicationContext(), TruckPage.class);
         intent.putExtra(LoginActivity.Extra_String_UserN, loggedInUser);
+        intent.putExtra(TruckPage.Extra_String_TruckName, truckName);
         startActivity(intent);
     }
 }
