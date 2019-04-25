@@ -26,9 +26,6 @@ public class ReviewCreateActivity extends AppCompatActivity implements AdapterVi
     private RatingBar ratingBar;
     private Spinner spinner;
 
-
-    private Firebase rRef;
-    private Firebase rRef1;
     private Firebase rRefInstance;
 
     private ArrayList<String> truckNames;
