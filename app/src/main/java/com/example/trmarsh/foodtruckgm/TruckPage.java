@@ -68,6 +68,7 @@ public class TruckPage extends AppCompatActivity {
     }
 
     private void startMenuButtonListeners(final int thing) {
+        // define listeners for all navigation buttons at top
         btnReviews = findViewById(R.id.btn_reviews);
         btnReviews.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -103,6 +104,7 @@ public class TruckPage extends AppCompatActivity {
                 }
             }
         });
+        // coloring the navigation buttons
         if (thing == 1) {
             btnReviews.setBackgroundColor(getResources().getColor(R.color.colorPrimaryDark));
         } else {
@@ -130,10 +132,16 @@ public class TruckPage extends AppCompatActivity {
                     if (btnCheckin.getText().toString().equals("Check-In")) {
                         LocationManager locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
                         Criteria criteria = new Criteria();
-                        final Location myLoc = locationManager.getLastKnownLocation(locationManager.getBestProvider(criteria, false));
-                        double latitude = myLoc.getLatitude();
-                        double longitude = myLoc.getLongitude();
-                        setCheckinInfo(truck, String.valueOf(latitude), String.valueOf(longitude));
+                        Location myLoc = locationManager.getLastKnownLocation(locationManager.getBestProvider(criteria, false));
+                        String latitude, longitude;
+                        try {
+                            latitude = String.valueOf(myLoc.getLatitude());
+                            longitude = String.valueOf(myLoc.getLongitude());
+                        } catch (NullPointerException e) {
+                            latitude = "0";
+                            longitude = "0";
+                        }
+                        setCheckinInfo(truck, latitude, longitude);
 
                         // kick them out to the map
                         Intent intent2 = new Intent(getApplicationContext(), MapsActivity.class);
