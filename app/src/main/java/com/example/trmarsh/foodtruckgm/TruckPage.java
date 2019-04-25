@@ -144,4 +144,6 @@ public class TruckPage extends AppCompatActivity {
         });
     }
 
+
+
 }

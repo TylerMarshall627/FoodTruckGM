@@ -30,6 +30,13 @@
             android:text="this is a truckl description "
             android:textAlignment="center" />
 
+        <Button
+            android:id="@+id/button3"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:onClick="onChekckIn"
+            android:text="Check In" />
+
         <TextView
             android:id="@+id/tv_truckLocation"
             android:layout_width="match_parent"
