@@ -20,6 +20,7 @@ public class TruckSignupActivity extends AppCompatActivity {
     public Firebase tRef;
     public Firebase tRefInstance;
 
+    private String loggedInUser = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,7 +45,7 @@ public class TruckSignupActivity extends AppCompatActivity {
         String truckInsta =  tInstagram.getText().toString();
         String truckTwit =  tTwitter.getText().toString();
 
-        String userName = getIntent().getStringExtra(UserSignupActivity.Extra_String_UserName);
+        loggedInUser = getIntent().getStringExtra(UserSignupActivity.Extra_String_UserName);
 
         //create a child to the table object; this will be the instance child
         tRefInstance = tRef.child("Truck").child(truckName);
@@ -55,11 +56,11 @@ public class TruckSignupActivity extends AppCompatActivity {
         tRefInstance.child("Twitter").setValue(truckTwit);
         tRefInstance.child("Lat").setValue("0");
         tRefInstance.child("Lng").setValue("0");
-        tRefInstance.child("Owner").setValue(userName);
+        tRefInstance.child("Owner").setValue(loggedInUser);
 
 
         // place the truck information in the user (owner's) information
-        tRefInstance = tRef.child("User").child(userName).child("Truck").child(truckName);
+        tRefInstance = tRef.child("User").child(loggedInUser).child("Truck").child(truckName);
         tRefInstance.child("Name").setValue(truckName);
         tRefInstance.child("Bio").setValue(truckDesc);
         tRefInstance.child("Facebook").setValue(truckFace);
@@ -80,6 +81,7 @@ public class TruckSignupActivity extends AppCompatActivity {
         //send to next activity
         // set latlong
         Intent intent = new Intent(getApplicationContext(), TruckPage.class);
+        intent.putExtra(LoginActivity.Extra_String_UserN, loggedInUser);
         startActivity(intent);
     }
 }

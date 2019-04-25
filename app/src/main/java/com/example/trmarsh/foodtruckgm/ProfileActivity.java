@@ -5,45 +5,92 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.firebase.client.DataSnapshot;
+import com.firebase.client.Firebase;
+import com.firebase.client.FirebaseError;
+import com.firebase.client.ValueEventListener;
+
+import java.util.ArrayList;
+
 import static com.example.trmarsh.foodtruckgm.LoginActivity.Extra_String_UserN;
+import static com.example.trmarsh.foodtruckgm.TruckPage.Extra_String_TruckName;
 
 public class ProfileActivity extends AppCompatActivity {
 
     private Button btnReviews, btnMap, btnProfile;
+    private TextView tvUser, tvFirst, tvLast, tvEmail;
+    private Button btnTruckPage;
 
     private String loggedInUser = null;
+    private String usersTruck = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile);
 
-
         loggedInUser = getIntent().getStringExtra(Extra_String_UserN);
 
         if (loggedInUser == null) {
-            //TODO go to a page with login and signup buttons
+            Intent intent = new Intent(getApplicationContext(), LandingActivity.class);
+            intent.putExtra(Extra_String_UserN, loggedInUser);
+            startActivity(intent);
         }
 
         startMenuButtonListeners(3);
+        tvUser = findViewById(R.id.tv_userName);
+        tvFirst = findViewById(R.id.tv_first);
+        tvLast = findViewById(R.id.tv_last);
+        tvEmail = findViewById(R.id.tv_email);
+        btnTruckPage = findViewById(R.id.btn_truckPage);
+        btnTruckPage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getApplicationContext(), TruckPage.class);
+                intent.putExtra(Extra_String_TruckName, usersTruck);
+                intent.putExtra(Extra_String_UserN, loggedInUser);
+                startActivity(intent);
+            }
+        });
 
+        showUserInfo(loggedInUser);
+    }
 
-        //TODO replace this with database calls looking for the user's info
-        String recEmail = getIntent().getStringExtra(LoginActivity.Extra_String_Email);
-        String recFirstN = getIntent().getStringExtra(LoginActivity.Extra_String_First);
-        String recLastN = getIntent().getStringExtra(LoginActivity.Extra_String_Last);
+    private void showUserInfo(final String userName) {
+        Firebase reviewRef = new Firebase("https://foodtruck-38f8f.firebaseio.com/User");
+        reviewRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                for (DataSnapshot snap : dataSnapshot.getChildren()) {
+                    String user = snap.child("UserName").getValue().toString();
+                    String first = snap.child("FirstName").getValue().toString();
+                    String last = snap.child("LastName").getValue().toString();
+                    String isOwner = snap.child("TruckOwner").getValue().toString();
+                    if (user.equals(userName)) {
+                        tvUser.setText(user);
+                        tvFirst.setText(first);
+                        tvLast.setText(last);
 
-        TextView uv = (TextView) findViewById(R.id.textView2);
-        uv.setText(loggedInUser);
-        TextView ev = (TextView) findViewById(R.id.textView3);
-        ev.setText(recEmail);
-        TextView fv = (TextView) findViewById(R.id.textView4);
-        fv.setText(recFirstN);
-        TextView lv = (TextView) findViewById(R.id.textView5);
-        lv.setText(recLastN);
+                        if (isOwner.equals("1")) {
+                            for (DataSnapshot truckSnap : snap.child("Truck").getChildren()) {
+                                usersTruck = truckSnap.child("Name").getValue().toString();
+                                btnTruckPage.setVisibility(View.VISIBLE);
+                            }
+                        } else {
+                            btnTruckPage.setVisibility(View.GONE);
+                        }
+                    }
+                }
+            }
+
+            @Override
+            public void onCancelled(FirebaseError firebaseError) {
+            }
+        });
     }
 
     private void startMenuButtonListeners(final int thing) {
@@ -98,12 +145,5 @@ public class ProfileActivity extends AppCompatActivity {
             btnProfile.setBackgroundColor(getResources().getColor(R.color.colorAccent));
         }
     }
-
-    public void onReview(View v){
-        Intent intent = new Intent(getApplicationContext(), ReviewCreateActivity.class);
-        intent.putExtra(Extra_String_UserN, loggedInUser);
-        startActivity(intent);
-    }
-
 
 }

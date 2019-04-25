@@ -25,7 +25,6 @@ public class LoginActivity extends AppCompatActivity {
     public final static String Extra_String_First = "com.example.trmarsh.foodtruckgm.loginFirst";
     public final static String Extra_String_Last = "com.example.trmarsh.foodtruckgm.loginLast";
 
-
     private Firebase mRef;
 
     @Override
