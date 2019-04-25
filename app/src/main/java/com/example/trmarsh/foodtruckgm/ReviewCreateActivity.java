@@ -95,7 +95,6 @@ public class ReviewCreateActivity extends AppCompatActivity implements AdapterVi
         Firebase rRef = new Firebase("https://foodtruck-38f8f.firebaseio.com");
 
 
-        String rateUser = getIntent().getStringExtra(LoginActivity.Extra_String_UserN);
         String rateText = rText.getText().toString();
         String rateStars = String.valueOf(ratingBar.getRating());
         String rateTruck = selectedTruck;
@@ -104,13 +103,14 @@ public class ReviewCreateActivity extends AppCompatActivity implements AdapterVi
         String rateID = Integer.toString(n);
 
         rRefInstance = rRef.child("Review").child(rateID);
-        rRefInstance.child("User").setValue(rateUser);
+        rRefInstance.child("User").setValue(loggedInUser);
         rRefInstance.child("Text").setValue(rateText);
         rRefInstance.child("Rating").setValue(rateStars);
         rRefInstance.child("Truck").setValue(rateTruck);
 
 
         Intent intent = new Intent(getApplicationContext(), ReviewActivity.class);
+        intent.putExtra(LoginActivity.Extra_String_UserN,loggedInUser);
         startActivity(intent);
 
     }
