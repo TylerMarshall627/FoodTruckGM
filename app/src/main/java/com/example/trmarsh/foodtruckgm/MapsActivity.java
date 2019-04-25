@@ -4,6 +4,8 @@ import android.content.Intent;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
+import android.widget.Button;
 
 import com.firebase.client.DataSnapshot;
 import com.firebase.client.Firebase;
@@ -19,26 +21,85 @@ import com.google.android.gms.maps.model.MarkerOptions;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
-import java.util.Objects;
+
+import static com.example.trmarsh.foodtruckgm.LoginActivity.Extra_String_UserN;
 
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback, GoogleMap.OnMarkerClickListener {
+
+    private Button btnReviews, btnMap, btnProfile;
 
     private GoogleMap mMap;
     private Firebase mRef;
 
+    private String loggedInUser = null;
     private HashMap<String, ArrayList<String>> truckLocations;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_maps);
-        // Obtain the SupportMapFragment and get notified when the map is ready to be used.
 
+        loggedInUser = getIntent().getStringExtra(LoginActivity.Extra_String_UserN);
+        startMenuButtonListeners(2);
+
+        // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
+    }
+
+    private void startMenuButtonListeners(final int thing) {
+        btnReviews = findViewById(R.id.btn_reviews);
+        btnReviews.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (thing != 1) {
+                    Intent intent = new Intent(getApplicationContext(), ReviewActivity.class);
+                    intent.putExtra(Extra_String_UserN, loggedInUser);
+                    startActivity(intent);
+                }
+            }
+        });
+
+        btnMap = findViewById(R.id.btn_map);
+        btnMap.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (thing != 2) {
+                    Intent intent = new Intent(getApplicationContext(), MapsActivity.class);
+                    intent.putExtra(Extra_String_UserN, loggedInUser);
+                    startActivity(intent);
+                }
+            }
+        });
+
+        btnProfile = findViewById(R.id.btn_profile);
+        btnProfile.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (thing != 3) {
+                    Intent intent = new Intent(getApplicationContext(), ProfileActivity.class);
+                    intent.putExtra(Extra_String_UserN, loggedInUser);
+                    startActivity(intent);
+                }
+            }
+        });
+        if (thing == 1) {
+            btnReviews.setBackgroundColor(getResources().getColor(R.color.colorPrimaryDark));
+        } else {
+            btnReviews.setBackgroundColor(getResources().getColor(R.color.colorAccent));
+        }
+        if (thing == 2) {
+            btnMap.setBackgroundColor(getResources().getColor(R.color.colorPrimaryDark));
+        } else {
+            btnMap.setBackgroundColor(getResources().getColor(R.color.colorAccent));
+        }
+        if (thing == 3) {
+            btnProfile.setBackgroundColor(getResources().getColor(R.color.colorPrimaryDark));
+        } else {
+            btnProfile.setBackgroundColor(getResources().getColor(R.color.colorAccent));
+        }
     }
 
 
@@ -136,6 +197,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         String truckName = marker.getTitle();
         Intent intent = new Intent(getApplicationContext(), TruckPage.class);
         intent.putExtra(TruckPage.Extra_String_TruckName, truckName);
+        intent.putExtra(LoginActivity.Extra_String_UserN, loggedInUser);
         startActivity(intent);
     }
 

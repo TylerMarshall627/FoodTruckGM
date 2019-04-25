@@ -29,12 +29,18 @@ public class ReviewCreateActivity extends AppCompatActivity implements AdapterVi
     private Firebase rRefInstance;
 
     private ArrayList<String> truckNames;
+    private String loggedInUser = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_review_create);
         this.thisThing = this;
+
+        loggedInUser = getIntent().getStringExtra(LoginActivity.Extra_String_UserN);
+        if (loggedInUser == null) {
+            //TODO just go back a page
+        }
 
         spinner = findViewById(R.id.spinner);
         spinner.setOnItemSelectedListener(this);
@@ -67,7 +73,6 @@ public class ReviewCreateActivity extends AppCompatActivity implements AdapterVi
 
             @Override
             public void onCancelled(FirebaseError firebaseError) {
-
             }
         });
     }

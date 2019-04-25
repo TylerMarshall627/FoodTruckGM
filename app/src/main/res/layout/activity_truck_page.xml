@@ -11,6 +11,34 @@
         android:layout_height="match_parent"
         android:orientation="vertical">
 
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@android:color/background_light"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/btn_reviews"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Reviews" />
+
+            <Button
+                android:id="@+id/btn_map"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Truck Finder" />
+
+            <Button
+                android:id="@+id/btn_profile"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Profile" />
+        </LinearLayout>
+
         <TextView
             android:id="@+id/lbl_bigTruckName"
             android:layout_width="match_parent"
@@ -30,18 +58,18 @@
             android:text="this is a truckl description "
             android:textAlignment="center" />
 
-        <Button
-            android:id="@+id/button3"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:onClick="onChekckIn"
-            android:text="Check In" />
-
         <TextView
             android:id="@+id/tv_truckLocation"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Current Location:" />
+
+        <Button
+            android:id="@+id/btn_checkin"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Check In"
+            android:visibility="gone" />
 
         <Button
             android:id="@+id/btn_instagram"

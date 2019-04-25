@@ -1,6 +1,7 @@
 package com.example.trmarsh.foodtruckgm;
 
 import android.content.Intent;
+import android.content.res.ColorStateList;
 import android.net.Uri;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -16,15 +17,18 @@ import com.firebase.client.FirebaseError;
 import com.firebase.client.ValueEventListener;
 
 import java.util.ArrayList;
-import java.util.HashMap;
+
+import static com.example.trmarsh.foodtruckgm.LoginActivity.Extra_String_UserN;
 
 public class TruckPage extends AppCompatActivity {
     private TruckPage thisPage;
 
     public final static String Extra_String_TruckName = "com.example.trmarsh.foodtruckgm.truckname";
 
+    private Button btnReviews, btnMap, btnProfile;
+
     private TextView bigTruckname, truckDescription, truckLocation;
-    private Button instagram, twitter, facebook;
+    private Button btnCheckin, instagram, twitter, facebook;
     private ListView reviewsListView;
 
     private ArrayList<String> reviews;
@@ -32,15 +36,89 @@ public class TruckPage extends AppCompatActivity {
     private String twitterURL = "";
     private String facebookURL = "";
 
+    private String loggedInUser = null;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_truck_page);
         thisPage = this;
 
+        startMenuButtonListeners(0);
+
+        String truckName = getIntent().getStringExtra(Extra_String_TruckName);
+        loggedInUser = getIntent().getStringExtra(Extra_String_UserN);
+
         bigTruckname = findViewById(R.id.lbl_bigTruckName);
         truckDescription = findViewById(R.id.tv_truckDescription);
         truckLocation = findViewById(R.id.tv_truckLocation);
+
+        startTruckButtonListeners();
+        Firebase.setAndroidContext(this);
+        updateTruckInfo(truckName);
+    }
+
+    private void startMenuButtonListeners(final int thing) {
+        btnReviews = findViewById(R.id.btn_reviews);
+        btnReviews.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (thing != 1) {
+                    Intent intent = new Intent(getApplicationContext(), ReviewActivity.class);
+                    intent.putExtra(Extra_String_UserN, loggedInUser);
+                    startActivity(intent);
+                }
+            }
+        });
+
+        btnMap = findViewById(R.id.btn_map);
+        btnMap.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (thing != 2) {
+                    Intent intent = new Intent(getApplicationContext(), MapsActivity.class);
+                    intent.putExtra(Extra_String_UserN, loggedInUser);
+                    startActivity(intent);
+                }
+            }
+        });
+
+        btnProfile = findViewById(R.id.btn_profile);
+        btnProfile.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (thing != 3) {
+                    Intent intent = new Intent(getApplicationContext(), ProfileActivity.class);
+                    intent.putExtra(Extra_String_UserN, loggedInUser);
+                    startActivity(intent);
+                }
+            }
+        });
+        if (thing == 1) {
+            btnReviews.setBackgroundColor(getResources().getColor(R.color.colorPrimaryDark));
+        } else {
+            btnReviews.setBackgroundColor(getResources().getColor(R.color.colorAccent));
+        }
+        if (thing == 2) {
+            btnMap.setBackgroundColor(getResources().getColor(R.color.colorPrimaryDark));
+        } else {
+            btnMap.setBackgroundColor(getResources().getColor(R.color.colorAccent));
+        }
+        if (thing == 3) {
+            btnProfile.setBackgroundColor(getResources().getColor(R.color.colorPrimaryDark));
+        } else {
+            btnProfile.setBackgroundColor(getResources().getColor(R.color.colorAccent));
+        }
+    }
+
+    private void startTruckButtonListeners() {
+        btnCheckin = findViewById(R.id.btn_checkin);
+        btnCheckin.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //TODO CHECKIN STUFF HERE
+            }
+        });
         instagram = findViewById(R.id.btn_instagram);
         instagram.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -69,10 +147,6 @@ public class TruckPage extends AppCompatActivity {
             }
         });
         reviewsListView = findViewById(R.id.lst_reviews);
-
-        String truckName = getIntent().getStringExtra(Extra_String_TruckName);
-        Firebase.setAndroidContext(this);
-        updateTruckInfo(truckName);
     }
 
     private void updateTruckInfo(final String truckName) {
@@ -91,6 +165,11 @@ public class TruckPage extends AppCompatActivity {
                     String sLat = snap.child("Lat").getValue().toString();
                     String sLng = snap.child("Lng").getValue().toString();
                     if (sTruckName.equalsIgnoreCase(truckName)) {
+                        if (loggedInUser != null && sOwner.equals(loggedInUser)) {
+                            btnCheckin.setVisibility(View.VISIBLE);
+                        } else {
+                            btnCheckin.setVisibility(View.GONE);
+                        }
                         bigTruckname.setText(sTruckName);
                         truckDescription.setText(sBio);
 
@@ -120,8 +199,8 @@ public class TruckPage extends AppCompatActivity {
             public void onDataChange(DataSnapshot dataSnapshot) {
                 reviews = new ArrayList<>();
                 for (DataSnapshot snap : dataSnapshot.getChildren()) {
-                    String reviewTruck = snap.child("TruckName").getValue().toString();
-                    String reviewUser = snap.child("UserName").getValue().toString();
+                    String reviewTruck = snap.child("Truck").getValue().toString();
+                    String reviewUser = snap.child("User").getValue().toString();
                     String reviewText = snap.child("Text").getValue().toString();
                     String reviewRating = snap.child("Rating").getValue().toString();
                     if (reviewTruck.equalsIgnoreCase(truckName)) {
