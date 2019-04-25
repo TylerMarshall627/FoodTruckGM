@@ -12,6 +12,16 @@
         android:layout_height="match_parent"
         android:orientation="vertical">
 
+        <TextView
+            android:id="@+id/lbl_bigTruckName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingTop="10dp"
+            android:text="SIGNUP"
+            android:textAlignment="center"
+            android:textColor="@color/common_google_signin_btn_text_dark_focused"
+            android:textSize="30sp" />
+
         <EditText
             android:id="@+id/editText"
             android:layout_width="match_parent"
