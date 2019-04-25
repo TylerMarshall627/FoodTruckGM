@@ -99,7 +99,7 @@ public class ReviewCreateActivity extends AppCompatActivity implements AdapterVi
         String rateStars = String.valueOf(ratingBar.getRating());
         String rateTruck = selectedTruck;
         Random rand = new Random();
-        int n = rand.nextInt(9999);
+        int n = rand.nextInt(99999);
         String rateID = Integer.toString(n);
 
         rRefInstance = rRef.child("Review").child(rateID);
