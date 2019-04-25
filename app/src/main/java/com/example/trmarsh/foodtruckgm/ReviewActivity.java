@@ -106,7 +106,7 @@ public class ReviewActivity extends AppCompatActivity {
     private void updateReviews() {
         reviews = new ArrayList<>();
         Firebase reviewRef = new Firebase("https://foodtruck-38f8f.firebaseio.com/Review");
-        reviewRef.addValueEventListener(new ValueEventListener() {
+        reviewRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 reviews = new ArrayList<>();

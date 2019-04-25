@@ -40,7 +40,7 @@ public class LoginActivity extends AppCompatActivity {
         mRef.setAndroidContext(this);
         mRef = new Firebase("https://foodtruck-38f8f.firebaseio.com/User");
 
-        mRef.addValueEventListener(new ValueEventListener() {
+        mRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             // handle to output in the format of the map while logging the snapshot
             public void onDataChange(DataSnapshot dataSnapshot) {

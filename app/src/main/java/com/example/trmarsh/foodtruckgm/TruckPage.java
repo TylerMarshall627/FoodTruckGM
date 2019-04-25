@@ -207,7 +207,7 @@ public class TruckPage extends AppCompatActivity {
 
     private void updateTruckInfo(final String truckName) {
         Firebase truckRef = new Firebase("https://foodtruck-38f8f.firebaseio.com/Truck");
-        truckRef.addValueEventListener(new ValueEventListener() {
+        truckRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 reviews = new ArrayList<>();

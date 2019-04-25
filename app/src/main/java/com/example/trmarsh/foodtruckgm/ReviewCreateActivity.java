@@ -59,7 +59,7 @@ public class ReviewCreateActivity extends AppCompatActivity implements AdapterVi
     private void updateTruckSelector() {
         truckNames = new ArrayList<>();
         Firebase rRef = new Firebase("https://foodtruck-38f8f.firebaseio.com/Truck");
-        rRef.addValueEventListener(new ValueEventListener() {
+        rRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 truckNames = new ArrayList<>();

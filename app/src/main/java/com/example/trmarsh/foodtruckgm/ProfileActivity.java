@@ -64,7 +64,7 @@ public class ProfileActivity extends AppCompatActivity {
 
     private void showUserInfo(final String userName) {
         Firebase reviewRef = new Firebase("https://foodtruck-38f8f.firebaseio.com/User");
-        reviewRef.addValueEventListener(new ValueEventListener() {
+        reviewRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 // update the info inside the snapshot
