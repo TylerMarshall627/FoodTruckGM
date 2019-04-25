@@ -35,11 +35,13 @@ public class ProfileActivity extends AppCompatActivity {
 
         loggedInUser = getIntent().getStringExtra(Extra_String_UserN);
 
+        // if no username is stored, send to homepage
         if (loggedInUser == null) {
             Intent intent = new Intent(getApplicationContext(), LandingActivity.class);
             intent.putExtra(Extra_String_UserN, loggedInUser);
             startActivity(intent);
         }
+
 
         startMenuButtonListeners(3);
         tvUser = findViewById(R.id.tv_userName);
@@ -65,6 +67,7 @@ public class ProfileActivity extends AppCompatActivity {
         reviewRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
+                // update the info inside the snapshot
                 for (DataSnapshot snap : dataSnapshot.getChildren()) {
                     String user = snap.child("UserName").getValue().toString();
                     String first = snap.child("FirstName").getValue().toString();
@@ -75,6 +78,7 @@ public class ProfileActivity extends AppCompatActivity {
                         tvFirst.setText(first);
                         tvLast.setText(last);
 
+                        // when user is an owner in database, allow them to navigate to their truckpage
                         if (isOwner.equals("1")) {
                             for (DataSnapshot truckSnap : snap.child("Truck").getChildren()) {
                                 usersTruck = truckSnap.child("Name").getValue().toString();
@@ -94,6 +98,7 @@ public class ProfileActivity extends AppCompatActivity {
     }
 
     private void startMenuButtonListeners(final int thing) {
+        // define listeners for all navigation buttons at top
         btnReviews = findViewById(R.id.btn_reviews);
         btnReviews.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -129,6 +134,7 @@ public class ProfileActivity extends AppCompatActivity {
                 }
             }
         });
+        // coloring the navigation buttons
         if (thing == 1) {
             btnReviews.setBackgroundColor(getResources().getColor(R.color.colorPrimaryDark));
         } else {

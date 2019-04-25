@@ -43,17 +43,17 @@ public class UserSignupActivity extends AppCompatActivity {
         mPassWord = (EditText) findViewById(R.id.editText4);
         mIsOwner = (CheckBox) findViewById(R.id.ownerCheckBox);
 
-
-
     }
 
     public void onAdd(View v) {
+        // set strings to the info entered into the edittexts
         String email = mEmail.getText().toString();
         String userN = mUserName.getText().toString();
         String firstN = mFirstN.getText().toString();
         String lastN = mLastN.getText().toString();
         String passW = mPassWord.getText().toString();
 
+        // store in firebase
         mRefInstance = mRef.child(userN);
 
         mRefInstanceUserName = mRefInstance.child("UserName");
@@ -69,11 +69,13 @@ public class UserSignupActivity extends AppCompatActivity {
         mRefInstancePassWord.setValue(passW);
 
         if (mIsOwner.isChecked()) {
+            // when they check owner box, make owner and send to truck creation
             mRefInstance.child("TruckOwner").setValue("1");
             Intent intentL = new Intent(getApplicationContext(), TruckSignupActivity.class);
             intentL.putExtra(Extra_String_UserName, userN);
             startActivity(intentL);
         } else {
+            // set owner to 0 and send to login page
             mRefInstance.child("TruckOwner").setValue("0");
             Intent intentL = new Intent(getApplicationContext(), LoginActivity.class);
             startActivity(intentL);

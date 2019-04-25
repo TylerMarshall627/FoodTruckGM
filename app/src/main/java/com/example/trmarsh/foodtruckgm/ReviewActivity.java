@@ -116,7 +116,7 @@ public class ReviewActivity extends AppCompatActivity {
                     String reviewText = snap.child("Text").getValue().toString();
                     String reviewRating = snap.child("Rating").getValue().toString();
                         StringBuilder strBld = new StringBuilder();
-                        strBld.append(String.format("[%s] %s/10", reviewTruck, reviewRating));
+                        strBld.append(String.format("[%s] %s/5", reviewTruck, reviewRating));
                         strBld.append("\n");
                         strBld.append(reviewText);
                         strBld.append("\n");
@@ -134,7 +134,7 @@ public class ReviewActivity extends AppCompatActivity {
     }
 
     public void onReview(View v){
-
+        // send to review creation activity while storing user
         Intent intent = new Intent(getApplicationContext(), ReviewCreateActivity.class);
         intent.putExtra(Extra_String_UserN, loggedInUser);
         startActivity(intent);

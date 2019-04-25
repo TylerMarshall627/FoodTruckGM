@@ -1,6 +1,7 @@
 package com.example.trmarsh.foodtruckgm;
 
 import android.content.Intent;
+import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -37,9 +38,12 @@ public class ReviewCreateActivity extends AppCompatActivity implements AdapterVi
         setContentView(R.layout.activity_review_create);
         this.thisThing = this;
 
+        // go back to reviews if not logged in
         loggedInUser = getIntent().getStringExtra(LoginActivity.Extra_String_UserN);
         if (loggedInUser == null) {
-            //TODO just go back a page
+            Intent intent = new Intent(getApplicationContext(), ReviewActivity.class);
+            intent.putExtra(LoginActivity.Extra_String_UserN, loggedInUser);
+            startActivity(intent);
         }
 
         spinner = findViewById(R.id.spinner);
@@ -50,7 +54,6 @@ public class ReviewCreateActivity extends AppCompatActivity implements AdapterVi
         Firebase.setAndroidContext(this);
         updateTruckSelector();
     }
-
 
 
     private void updateTruckSelector() {
@@ -66,6 +69,7 @@ public class ReviewCreateActivity extends AppCompatActivity implements AdapterVi
                     truckNames.add(truckName);
                 }
 
+                // show the array contents in spinner to pick from
                 ArrayAdapter<String> dataAdapter = new ArrayAdapter<>(thisThing, android.R.layout.simple_spinner_item, truckNames);
                 dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
                 spinner.setAdapter(dataAdapter);
@@ -79,6 +83,7 @@ public class ReviewCreateActivity extends AppCompatActivity implements AdapterVi
 
 
     private String selectedTruck = "";
+
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
         String item = parent.getItemAtPosition(position).toString();
@@ -94,10 +99,10 @@ public class ReviewCreateActivity extends AppCompatActivity implements AdapterVi
     public void onAdd(View v) {
         Firebase rRef = new Firebase("https://foodtruck-38f8f.firebaseio.com");
 
-
         String rateText = rText.getText().toString();
         String rateStars = String.valueOf(ratingBar.getRating());
         String rateTruck = selectedTruck;
+        // assign a random primary key
         Random rand = new Random();
         int n = rand.nextInt(99999);
         String rateID = Integer.toString(n);
@@ -108,9 +113,9 @@ public class ReviewCreateActivity extends AppCompatActivity implements AdapterVi
         rRefInstance.child("Rating").setValue(rateStars);
         rRefInstance.child("Truck").setValue(rateTruck);
 
-
+        // send back to all reviews
         Intent intent = new Intent(getApplicationContext(), ReviewActivity.class);
-        intent.putExtra(LoginActivity.Extra_String_UserN,loggedInUser);
+        intent.putExtra(LoginActivity.Extra_String_UserN, loggedInUser);
         startActivity(intent);
 
     }

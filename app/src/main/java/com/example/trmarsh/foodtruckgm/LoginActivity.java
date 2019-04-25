@@ -20,6 +20,7 @@ public class LoginActivity extends AppCompatActivity {
     private EditText mUserName;
     private EditText mPassWord;
 
+    // create extras for signed up info
     public final static String Extra_String_Email = "com.example.trmarsh.foodtruckgm.loginEmail";
     public final static String Extra_String_UserN = "com.example.trmarsh.foodtruckgm.loginUser";
     public final static String Extra_String_First = "com.example.trmarsh.foodtruckgm.loginFirst";

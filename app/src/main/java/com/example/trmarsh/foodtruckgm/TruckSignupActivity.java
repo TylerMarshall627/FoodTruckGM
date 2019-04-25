@@ -60,6 +60,8 @@ public class TruckSignupActivity extends AppCompatActivity {
 
 
         // place the truck information in the user (owner's) information
+
+        // set latlong
         tRefInstance = tRef.child("User").child(loggedInUser).child("Truck").child(truckName);
         tRefInstance.child("Name").setValue(truckName);
         tRefInstance.child("Bio").setValue(truckDesc);
@@ -70,7 +72,6 @@ public class TruckSignupActivity extends AppCompatActivity {
         tRefInstance.child("Lng").setValue("0");
 
         //send to next activity
-        // set latlong
         Intent intent = new Intent(getApplicationContext(), TruckPage.class);
         intent.putExtra(LoginActivity.Extra_String_UserN, loggedInUser);
         intent.putExtra(TruckPage.Extra_String_TruckName, truckName);
