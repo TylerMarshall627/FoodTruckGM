@@ -68,7 +68,7 @@
             android:id="@+id/btn_checkin"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Check In"
+            android:text="Check-In"
             android:visibility="gone" />
 
         <Button

@@ -1,7 +1,13 @@
 package com.example.trmarsh.foodtruckgm;
 
+import android.content.Context;
 import android.content.Intent;
 import android.content.res.ColorStateList;
+import android.location.Address;
+import android.location.Criteria;
+import android.location.Geocoder;
+import android.location.Location;
+import android.location.LocationManager;
 import android.net.Uri;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -16,7 +22,9 @@ import com.firebase.client.Firebase;
 import com.firebase.client.FirebaseError;
 import com.firebase.client.ValueEventListener;
 
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 
 import static com.example.trmarsh.foodtruckgm.LoginActivity.Extra_String_UserN;
 
@@ -37,6 +45,7 @@ public class TruckPage extends AppCompatActivity {
     private String facebookURL = "";
 
     private String loggedInUser = null;
+    private String truckOwner = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -116,9 +125,33 @@ public class TruckPage extends AppCompatActivity {
         btnCheckin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //TODO CHECKIN STUFF HERE
+                if (loggedInUser != null && truckOwner.equals(loggedInUser)) {
+                    String truck = bigTruckname.getText().toString();
+                    if (btnCheckin.getText().toString().equals("Check-In")) {
+                        LocationManager locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+                        Criteria criteria = new Criteria();
+                        final Location myLoc = locationManager.getLastKnownLocation(locationManager.getBestProvider(criteria, false));
+                        double latitude = myLoc.getLatitude();
+                        double longitude = myLoc.getLongitude();
+                        setCheckinInfo(truck, String.valueOf(latitude), String.valueOf(longitude));
+
+                        // kick them out to the map
+                        Intent intent2 = new Intent(getApplicationContext(), MapsActivity.class);
+                        intent2.putExtra(Extra_String_UserN, loggedInUser);
+                        startActivity(intent2);
+                    } else {
+                        setCheckinInfo(truck, "0", "0");
+                        btnCheckin.setText("Check-In");
+
+                        Intent intent1 = new Intent(getApplicationContext(), TruckPage.class);
+                        intent1.putExtra(Extra_String_UserN, loggedInUser);
+                        intent1.putExtra(Extra_String_TruckName, truck);
+                        startActivity(intent1);
+                    }
+                }
             }
         });
+
         instagram = findViewById(R.id.btn_instagram);
         instagram.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -128,6 +161,7 @@ public class TruckPage extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+
         twitter = findViewById(R.id.btn_twitter);
         twitter.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -137,6 +171,7 @@ public class TruckPage extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+
         facebook = findViewById(R.id.btn_facebook);
         facebook.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -147,6 +182,19 @@ public class TruckPage extends AppCompatActivity {
             }
         });
         reviewsListView = findViewById(R.id.lst_reviews);
+    }
+
+    private void setCheckinInfo(final String truckName, String lat, String lng) {
+        Firebase ref = new Firebase("https://foodtruck-38f8f.firebaseio.com");
+        Firebase refInstance;
+
+        refInstance = ref.child("Truck").child(truckName);
+        refInstance.child("Lat").setValue(lat);
+        refInstance.child("Lng").setValue(lng);
+
+        refInstance = ref.child("User").child(loggedInUser).child("Truck").child(truckName);
+        refInstance.child("Lat").setValue(lat);
+        refInstance.child("Lng").setValue(lng);
     }
 
     private void updateTruckInfo(final String truckName) {
@@ -165,16 +213,54 @@ public class TruckPage extends AppCompatActivity {
                     String sLat = snap.child("Lat").getValue().toString();
                     String sLng = snap.child("Lng").getValue().toString();
                     if (sTruckName.equalsIgnoreCase(truckName)) {
-                        if (loggedInUser != null && sOwner.equals(loggedInUser)) {
+                        truckOwner = sOwner;
+
+                        if (loggedInUser != null && truckOwner.equals(loggedInUser)) {
                             btnCheckin.setVisibility(View.VISIBLE);
+                            if (!(sLat.equals("0") && sLng.equals("0"))) {
+                                btnCheckin.setText("Close Truck");
+                            } else {
+                                btnCheckin.setText("Check-In");
+                            }
                         } else {
                             btnCheckin.setVisibility(View.GONE);
                         }
+
                         bigTruckname.setText(sTruckName);
                         truckDescription.setText(sBio);
 
-                        //TODO get address from latlng
-                        truckLocation.setText("");
+                        if (!(sLat.equals("0") || sLng.equals("0"))) {
+                            // turn latlong into street address
+                            Geocoder geocoder = new Geocoder(thisPage);
+                            List<Address> addressList = null;
+                            boolean success = true;
+                            try {
+                                addressList = geocoder.getFromLocation(Double.parseDouble(sLat), Double.parseDouble(sLng), 1);
+                            } catch (IOException e) {
+                                success = false;
+                                e.printStackTrace();
+                            }
+
+                            Address ad = null;
+                            String address = null;
+                            if (success) {
+                                //get address and
+                                ad = addressList.get(0);
+                                address = ad.getAddressLine(0);
+                            }
+
+                            if (address != null) {
+                                //TODO make the address a clickable thing that intent's out to navigation??????
+                                truckLocation.setText("Current Location: " + address);
+                            } else {
+                                truckLocation.setText("");
+                            }
+
+
+                        } else {
+                            //TODO put something in the truck location area
+                            truckLocation.setText("");
+                        }
 
                         instagramURL = sInstagram;
                         twitterURL = sTwitter;
