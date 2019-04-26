@@ -44,7 +44,10 @@
             android:label="@string/title_activity_maps" />
         <activity android:name=".TruckPage" />
         <activity android:name=".ReviewActivity" />
-        <activity android:name=".ReviewCreateActivity"></activity>
+        <activity android:name=".ReviewCreateActivity"/>
+        <activity android:name=".SetLocationActivity">
+        </activity>
+
     </application>
 
 </manifest>
