@@ -130,22 +130,9 @@ public class TruckPage extends AppCompatActivity {
                 if (loggedInUser != null && truckOwner.equals(loggedInUser)) {
                     String truck = bigTruckname.getText().toString();
                     if (btnCheckin.getText().toString().equals("Check-In")) {
-                        LocationManager locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
-                        Criteria criteria = new Criteria();
-                        Location myLoc = locationManager.getLastKnownLocation(locationManager.getBestProvider(criteria, false));
-                        String latitude, longitude;
-                        try {
-                            latitude = String.valueOf(myLoc.getLatitude());
-                            longitude = String.valueOf(myLoc.getLongitude());
-                        } catch (NullPointerException e) {
-                            latitude = "0";
-                            longitude = "0";
-                        }
-                        setCheckinInfo(truck, latitude, longitude);
-
-                        // kick them out to the map
-                        Intent intent2 = new Intent(getApplicationContext(), MapsActivity.class);
+                        Intent intent2 = new Intent(getApplicationContext(), SetLocationActivity.class);
                         intent2.putExtra(Extra_String_UserN, loggedInUser);
+                        intent2.putExtra(Extra_String_TruckName, truck);
                         startActivity(intent2);
                     } else {
                         setCheckinInfo(truck, "0", "0");

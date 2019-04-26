@@ -1,4 +1,5 @@
 <resources>
     <string name="app_name">FoodTruckGM</string>
     <string name="title_activity_maps">Map</string>
+    <string name="title_activity_set_location">SetLocationActivity</string>
 </resources>
