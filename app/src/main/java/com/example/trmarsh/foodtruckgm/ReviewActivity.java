@@ -39,7 +39,7 @@ public class ReviewActivity extends AppCompatActivity {
 
         // set create a review button visible only if logged in
         btnMakeReview = findViewById(R.id.btn_makereview);
-        if (loggedInUser != null ){
+        if (loggedInUser != null) {
             btnMakeReview.setVisibility(View.VISIBLE);
         } else {
             btnMakeReview.setVisibility(View.GONE);
@@ -115,13 +115,15 @@ public class ReviewActivity extends AppCompatActivity {
                     String reviewUser = snap.child("User").getValue().toString();
                     String reviewText = snap.child("Text").getValue().toString();
                     String reviewRating = snap.child("Rating").getValue().toString();
-                        StringBuilder strBld = new StringBuilder();
-                        strBld.append(String.format("[%s] %s/5", reviewTruck, reviewRating));
+                    StringBuilder strBld = new StringBuilder();
+                    strBld.append(String.format("[%s] %s/5", reviewTruck, reviewRating));
+                    if (reviewText != "") {
                         strBld.append("\n");
                         strBld.append(reviewText);
-                        strBld.append("\n");
-                        strBld.append(String.format("By: %s", reviewUser));
-                        reviews.add(strBld.toString());
+                    }
+                    strBld.append("\n");
+                    strBld.append(String.format("By: %s", reviewUser));
+                    reviews.add(strBld.toString());
                 }
                 ArrayAdapter<String> itemsAdapter = new ArrayAdapter<>(thisPage, R.layout.review_item_layout, reviews);
                 reviewsList.setAdapter(itemsAdapter);
@@ -133,12 +135,12 @@ public class ReviewActivity extends AppCompatActivity {
         });
     }
 
-    public void onReview(View v){
+    public void onReview(View v) {
         // send to review creation activity while storing user
         Intent intent = new Intent(getApplicationContext(), ReviewCreateActivity.class);
         intent.putExtra(Extra_String_UserN, loggedInUser);
         startActivity(intent);
     }
 
-    
+
 }

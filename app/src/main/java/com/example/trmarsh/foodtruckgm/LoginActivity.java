@@ -33,8 +33,8 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-        mUserName = (EditText) findViewById(R.id.editText);
-        mPassWord = (EditText) findViewById(R.id.editText2);
+        mUserName = findViewById(R.id.editText);
+        mPassWord = findViewById(R.id.editText2);
     }
     public void onLogin (View v){
         mRef.setAndroidContext(this);
@@ -49,31 +49,36 @@ public class LoginActivity extends AppCompatActivity {
                 Log.i("data-map", map.toString());
 
                 // if we don't have any value in the username, don't do operation
-                if(!mUserName.getText().toString().equals("")){
+                if(!mUserName.getText().toString().equals("") || mPassWord.getText().toString().equals("")){
                     // use the entered username to check the password
                     Map<String, String> matchMap = map.get(mUserName.getText().toString());
-                    String matchPassword = matchMap.get("Password");
-                    // Store the info in strings
-                    String matchEmail = matchMap.get("Email");
-                    String matchUser = matchMap.get("UserName");
-                    String matchFirstName = matchMap.get("FirstName");
-                    String matchLastName = matchMap.get("LastName");
-                    // if the password matches, send a success message. Otherwise send fail message
-                    if(matchPassword.equals(mPassWord.getText().toString())){
-                        Toast.makeText(getApplicationContext(), "Success!", Toast.LENGTH_SHORT).show();
-                        // Send the User to a welcome page with the indicated first and last name
-                        Intent intent = new Intent(getApplicationContext(), ProfileActivity.class);
-                        intent.putExtra(Extra_String_Email, matchEmail);
-                        intent.putExtra(Extra_String_UserN, matchUser);
-                        intent.putExtra(Extra_String_First, matchFirstName);
-                        intent.putExtra(Extra_String_Last, matchLastName);
-                        startActivity(intent);
-                        LoginActivity.this.finish();
+                    if (matchMap != null) {
+                        String matchPassword = matchMap.get("Password");
+                        // Store the info in strings
+                        String matchEmail = matchMap.get("Email");
+                        String matchUser = matchMap.get("UserName");
+                        String matchFirstName = matchMap.get("FirstName");
+                        String matchLastName = matchMap.get("LastName");
+                        // if the password matches, send a success message. Otherwise send fail message
+                        if (matchPassword.equals(mPassWord.getText().toString())) {
+                            Toast.makeText(getApplicationContext(), "Success!", Toast.LENGTH_SHORT).show();
+                            // Send the User to a welcome page with the indicated first and last name
+                            Intent intent = new Intent(getApplicationContext(), ProfileActivity.class);
+                            intent.putExtra(Extra_String_Email, matchEmail);
+                            intent.putExtra(Extra_String_UserN, matchUser);
+                            intent.putExtra(Extra_String_First, matchFirstName);
+                            intent.putExtra(Extra_String_Last, matchLastName);
+                            startActivity(intent);
+                            LoginActivity.this.finish();
+                        } else {
+                            // send error and do not redirect
+                            Toast.makeText(getApplicationContext(), "The username/password don't match.", Toast.LENGTH_SHORT).show();
+                        }
                     } else {
-                        // send error and do not redirect
-                        Toast.makeText(getApplicationContext(), "Password does not match!", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getApplicationContext(), "The username/password don't match.", Toast.LENGTH_SHORT).show();
                     }
-
+                } else {
+                    Toast.makeText(getApplicationContext(), "Username or password can't be left blank.", Toast.LENGTH_SHORT).show();
                 }
 
             }

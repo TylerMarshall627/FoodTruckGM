@@ -17,7 +17,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:paddingTop="10dp"
-            android:text="LEAVE REVIEW"
+            android:text="CREATE REVIEW"
             android:textAlignment="center"
             android:textColor="@color/common_google_signin_btn_text_dark_focused"
             android:textSize="30sp" />
@@ -27,7 +27,8 @@
             android:id="@+id/spinner"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:dropDownSelector="@drawable/common_google_signin_btn_icon_dark_focused" />
+            android:dropDownSelector="@drawable/common_google_signin_btn_icon_dark_focused"
+            android:longClickable="false" />
 
         <RatingBar
             android:id="@+id/ratingBar"

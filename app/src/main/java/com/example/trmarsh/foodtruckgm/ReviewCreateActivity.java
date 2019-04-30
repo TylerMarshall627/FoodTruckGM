@@ -63,6 +63,7 @@ public class ReviewCreateActivity extends AppCompatActivity implements AdapterVi
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 truckNames = new ArrayList<>();
+                truckNames.add("- select truck -");
                 for (DataSnapshot snap : dataSnapshot.getChildren()) {
                     String truckName = snap.child("Name").getValue().toString();
 
@@ -82,13 +83,15 @@ public class ReviewCreateActivity extends AppCompatActivity implements AdapterVi
     }
 
 
-    private String selectedTruck = "";
+    private String selectedTruck = null;
 
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
         String item = parent.getItemAtPosition(position).toString();
-        selectedTruck = item;
-        Toast.makeText(parent.getContext(), "Selected: " + item, Toast.LENGTH_LONG).show();
+        if (!item.equals("- select truck -")) {
+            selectedTruck = item;
+            Toast.makeText(parent.getContext(), "Selected: " + item, Toast.LENGTH_LONG).show();
+        }
     }
 
     @Override
@@ -102,21 +105,30 @@ public class ReviewCreateActivity extends AppCompatActivity implements AdapterVi
         String rateText = rText.getText().toString();
         String rateStars = String.valueOf(ratingBar.getRating());
         String rateTruck = selectedTruck;
-        // assign a random primary key
-        Random rand = new Random();
-        int n = rand.nextInt(99999);
-        String rateID = Integer.toString(n);
 
-        rRefInstance = rRef.child("Review").child(rateID);
-        rRefInstance.child("User").setValue(loggedInUser);
-        rRefInstance.child("Text").setValue(rateText);
-        rRefInstance.child("Rating").setValue(rateStars);
-        rRefInstance.child("Truck").setValue(rateTruck);
+        if (!rateStars.equals("0.0") && rateTruck != "- select truck -" && rateTruck!= null) {
+            // assign a random primary key
+            Random rand = new Random();
+            int n = rand.nextInt(99999);
+            String rateID = Integer.toString(n);
 
-        // send back to all reviews
-        Intent intent = new Intent(getApplicationContext(), ReviewActivity.class);
-        intent.putExtra(LoginActivity.Extra_String_UserN, loggedInUser);
-        startActivity(intent);
+            rRefInstance = rRef.child("Review").child(rateID);
+            rRefInstance.child("User").setValue(loggedInUser);
+            rRefInstance.child("Text").setValue(rateText);
+            rRefInstance.child("Rating").setValue(rateStars);
+            rRefInstance.child("Truck").setValue(rateTruck);
 
+            // send back to all reviews
+            Intent intent = new Intent(getApplicationContext(), ReviewActivity.class);
+            intent.putExtra(LoginActivity.Extra_String_UserN, loggedInUser);
+            startActivity(intent);
+        } else {
+            if (rateStars.equals("0.0")) {
+                Toast.makeText(getApplicationContext(), "Must assign a star rating.", Toast.LENGTH_SHORT).show();
+            }
+            if (rateTruck != "- select truck -") {
+                Toast.makeText(getApplicationContext(), "You didn't select a truck!", Toast.LENGTH_SHORT).show();
+            }
+        }
     }
 }
