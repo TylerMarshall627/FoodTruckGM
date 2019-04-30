@@ -68,6 +68,7 @@ public class LoginActivity extends AppCompatActivity {
                         intent.putExtra(Extra_String_First, matchFirstName);
                         intent.putExtra(Extra_String_Last, matchLastName);
                         startActivity(intent);
+                        LoginActivity.this.finish();
                     } else {
                         // send error and do not redirect
                         Toast.makeText(getApplicationContext(), "Password does not match!", Toast.LENGTH_SHORT).show();

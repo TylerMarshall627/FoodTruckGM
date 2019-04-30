@@ -1,6 +1,7 @@
 package com.example.trmarsh.foodtruckgm;
 
 import android.content.Intent;
+import android.os.UserHandle;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -79,6 +80,7 @@ public class UserSignupActivity extends AppCompatActivity {
             mRefInstance.child("TruckOwner").setValue("0");
             Intent intentL = new Intent(getApplicationContext(), LoginActivity.class);
             startActivity(intentL);
+            UserSignupActivity.this.finish();
         }
     }
 

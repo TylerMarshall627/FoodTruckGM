@@ -76,5 +76,6 @@ public class TruckSignupActivity extends AppCompatActivity {
         intent.putExtra(LoginActivity.Extra_String_UserN, loggedInUser);
         intent.putExtra(TruckPage.Extra_String_TruckName, truckName);
         startActivity(intent);
+        TruckSignupActivity.this.finish();
     }
 }
