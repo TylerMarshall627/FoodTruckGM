@@ -116,7 +116,7 @@ public class ReviewActivity extends AppCompatActivity {
                     String reviewText = snap.child("Text").getValue().toString();
                     String reviewRating = snap.child("Rating").getValue().toString();
                     StringBuilder strBld = new StringBuilder();
-                    strBld.append(String.format("[%s] %s/5", reviewTruck, reviewRating));
+                    strBld.append(String.format("[%s] %s/5.0", reviewTruck, reviewRating));
                     if (reviewText != "") {
                         strBld.append("\n");
                         strBld.append(reviewText);

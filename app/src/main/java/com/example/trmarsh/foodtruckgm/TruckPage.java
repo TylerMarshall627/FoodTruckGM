@@ -286,9 +286,11 @@ public class TruckPage extends AppCompatActivity {
                     String reviewRating = snap.child("Rating").getValue().toString();
                     if (reviewTruck.equalsIgnoreCase(truckName)) {
                         StringBuilder strBld = new StringBuilder();
-                        strBld.append(String.format("[%s] %s/10", reviewTruck, reviewRating));
-                        strBld.append("\n");
-                        strBld.append(reviewText);
+                        strBld.append(String.format("[%s] %s/5.0", reviewTruck, reviewRating));
+                        if (reviewText != "") {
+                            strBld.append("\n");
+                            strBld.append(reviewText);
+                        }
                         strBld.append("\n");
                         strBld.append(String.format("By: %s", reviewUser));
                         reviews.add(strBld.toString());
