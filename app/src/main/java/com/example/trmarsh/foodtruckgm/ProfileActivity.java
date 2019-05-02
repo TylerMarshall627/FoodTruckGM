@@ -22,7 +22,7 @@ import static com.example.trmarsh.foodtruckgm.TruckPage.Extra_String_TruckName;
 public class ProfileActivity extends AppCompatActivity {
 
     private Button btnReviews, btnMap, btnProfile;
-    private TextView tvUser, tvFirst, tvLast, tvEmail;
+    private TextView tvUser, tvName, tvEmail;
     private Button btnTruckPage;
 
     private String loggedInUser = null;
@@ -45,8 +45,7 @@ public class ProfileActivity extends AppCompatActivity {
 
         startMenuButtonListeners(3);
         tvUser = findViewById(R.id.tv_userName);
-        tvFirst = findViewById(R.id.tv_first);
-        tvLast = findViewById(R.id.tv_last);
+        tvName = findViewById(R.id.tv_name);
         tvEmail = findViewById(R.id.tv_email);
         btnTruckPage = findViewById(R.id.btn_truckPage);
         btnTruckPage.setOnClickListener(new View.OnClickListener() {
@@ -72,11 +71,12 @@ public class ProfileActivity extends AppCompatActivity {
                     String user = snap.child("UserName").getValue().toString();
                     String first = snap.child("FirstName").getValue().toString();
                     String last = snap.child("LastName").getValue().toString();
+                    String email = snap.child("Email").getValue().toString();
                     String isOwner = snap.child("TruckOwner").getValue().toString();
                     if (user.equals(userName)) {
                         tvUser.setText(user);
-                        tvFirst.setText(first);
-                        tvLast.setText(last);
+                        tvName.setText(String.format("%s %s", first, last));
+                        tvEmail.setText(email);
 
                         // when user is an owner in database, allow them to navigate to their truckpage
                         if (isOwner.equals("1")) {

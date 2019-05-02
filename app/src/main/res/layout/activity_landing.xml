@@ -37,7 +37,7 @@
             <Button
                 android:id="@+id/MapButton"
                 android:layout_width="match_parent"
-                android:layout_height="80px"
+                android:layout_height="wrap_content"
                 android:onClick="onTruck"
                 android:text="Continue Without Signing In >"
                 tools:layout_editor_absoluteX="128dp"

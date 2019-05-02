@@ -48,8 +48,6 @@
         <activity android:name=".TruckPage" />
         <activity android:name=".ReviewActivity" />
         <activity android:name=".ReviewCreateActivity"/>
-        <activity android:name=".SetLocationActivity">
-        </activity>
 
     </application>
 

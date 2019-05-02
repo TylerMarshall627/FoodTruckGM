@@ -16,6 +16,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.firebase.client.DataSnapshot;
 import com.firebase.client.Firebase;
@@ -46,6 +47,8 @@ public class TruckPage extends AppCompatActivity {
 
     private String loggedInUser = null;
     private String truckOwner = null;
+
+    private Location myLoc;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -129,10 +132,24 @@ public class TruckPage extends AppCompatActivity {
             public void onClick(View v) {
                 if (loggedInUser != null && truckOwner.equals(loggedInUser)) {
                     String truck = bigTruckname.getText().toString();
+
                     if (btnCheckin.getText().toString().equals("Check-In")) {
-                        Intent intent2 = new Intent(getApplicationContext(), SetLocationActivity.class);
+/*                      Intent intent2 = new Intent(getApplicationContext(), SetLocationActivity.class);
                         intent2.putExtra(Extra_String_UserN, loggedInUser);
                         intent2.putExtra(Extra_String_TruckName, truck);
+                        startActivity(intent2);*/
+                        LocationManager locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+                        Criteria criteria = new Criteria();
+                        myLoc = locationManager.getLastKnownLocation(locationManager.getBestProvider(criteria, false));
+                        String latitude = String.valueOf(myLoc.getLatitude());
+                        String longitude = String.valueOf(myLoc.getLongitude());
+
+                        setCheckinInfo(truck, latitude, longitude);
+                        Toast.makeText(getApplicationContext(), String.format("Checked-in %s to %s,%s", truck, latitude, longitude), Toast.LENGTH_SHORT).show();
+                        btnCheckin.setText("Close Truck");
+
+                        Intent intent2 = new Intent(getApplicationContext(), MapsActivity.class);
+                        intent2.putExtra(Extra_String_UserN, loggedInUser);
                         startActivity(intent2);
                     } else {
                         setCheckinInfo(truck, "0", "0");
@@ -245,7 +262,6 @@ public class TruckPage extends AppCompatActivity {
                             }
 
                             if (address != null) {
-                                //TODO make the address a clickable thing that intent's out to navigation??????
                                 truckLocation.setText("Current Location: " + address);
                             } else {
                                 truckLocation.setText("");
@@ -253,7 +269,6 @@ public class TruckPage extends AppCompatActivity {
 
 
                         } else {
-                            //TODO put something in the truck location area
                             truckLocation.setText("");
                         }
 
