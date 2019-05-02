@@ -34,20 +34,21 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     private String loggedInUser = null;
     private HashMap<String, ArrayList<String>> truckLocations;
 
+    private double[] latlng = null;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_maps);
 
         loggedInUser = getIntent().getStringExtra(LoginActivity.Extra_String_UserN);
+        latlng = getIntent().getDoubleArrayExtra(TruckPage.Extra_String_LatLng);
         startMenuButtonListeners(2);
 
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
-
-        //TODO center map on user's location
     }
 
     private void startMenuButtonListeners(final int thing) {
@@ -118,8 +119,13 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         mMap = googleMap;
 
         // Add a marker in Sydney and move the camera
-        LatLng startLoc = new LatLng(36.1313586, -97.073077);
-        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(startLoc, 13));
+        if (latlng != null) {
+            LatLng pos = new LatLng(latlng[0], latlng[1]);
+            mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(pos, 13));
+        } else {
+            LatLng startLoc = new LatLng(36.1313586, -97.073077);
+            mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(startLoc, 13));
+        }
 
         ReadData();
 

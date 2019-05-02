@@ -34,6 +34,7 @@ public class TruckPage extends AppCompatActivity {
     private TruckPage thisPage;
 
     public final static String Extra_String_TruckName = "com.example.trmarsh.foodtruckgm.truckname";
+    public final static String Extra_String_LatLng = "com.example.trmarsh.foodtruckgm.latlng";
 
     private Button btnReviews, btnMap, btnProfile;
 
@@ -136,22 +137,19 @@ public class TruckPage extends AppCompatActivity {
                     String truck = bigTruckname.getText().toString();
 
                     if (btnCheckin.getText().toString().equals("Check-In")) {
-/*                      Intent intent2 = new Intent(getApplicationContext(), SetLocationActivity.class);
-                        intent2.putExtra(Extra_String_UserN, loggedInUser);
-                        intent2.putExtra(Extra_String_TruckName, truck);
-                        startActivity(intent2);*/
                         LocationManager locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
                         Criteria criteria = new Criteria();
                         myLoc = locationManager.getLastKnownLocation(locationManager.getBestProvider(criteria, false));
-                        String latitude = String.valueOf(myLoc.getLatitude());
-                        String longitude = String.valueOf(myLoc.getLongitude());
+                        double latitude = myLoc.getLatitude();
+                        double longitude = myLoc.getLongitude();
 
-                        setCheckinInfo(truck, latitude, longitude);
+                        setCheckinInfo(truck, String.valueOf(latitude), String.valueOf(longitude));
                         Toast.makeText(getApplicationContext(), String.format("Checked-in %s to %s,%s", truck, latitude, longitude), Toast.LENGTH_SHORT).show();
                         btnCheckin.setText("Close Truck");
 
                         Intent intent2 = new Intent(getApplicationContext(), MapsActivity.class);
                         intent2.putExtra(Extra_String_UserN, loggedInUser);
+                        intent2.putExtra(Extra_String_LatLng, new double[]{latitude,longitude});
                         startActivity(intent2);
                     } else {
                         setCheckinInfo(truck, "0", "0");
