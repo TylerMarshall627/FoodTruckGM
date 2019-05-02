@@ -75,18 +75,21 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center_horizontal"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:paddingTop="4dp">
 
             <ImageView
                 android:id="@+id/btn_instagram"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@drawable/instag"/>
+                android:src="@drawable/instag" />
 
             <ImageView
                 android:id="@+id/btn_facebook"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:paddingLeft="30dp"
+                android:paddingRight="30dp"
                 android:src="@drawable/faceb" />
 
             <ImageView
