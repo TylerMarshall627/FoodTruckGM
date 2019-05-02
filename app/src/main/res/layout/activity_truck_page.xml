@@ -71,23 +71,30 @@
             android:text="Check-In"
             android:visibility="gone" />
 
-        <Button
-            android:id="@+id/btn_instagram"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Instagram" />
+            android:gravity="center_horizontal"
+            android:orientation="horizontal">
 
-        <Button
-            android:id="@+id/btn_twitter"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Twitter" />
+            <ImageView
+                android:id="@+id/btn_instagram"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/instag"/>
 
-        <Button
-            android:id="@+id/btn_facebook"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Facebook" />
+            <ImageView
+                android:id="@+id/btn_facebook"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/faceb" />
+
+            <ImageView
+                android:id="@+id/btn_twitter"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/twitter" />
+        </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
